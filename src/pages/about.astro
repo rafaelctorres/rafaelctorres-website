@@ -1,0 +1,79 @@
+---
+import Layout from '../components/Layout.astro';
+---
+
+<Layout
+  title="About"
+  description="Rafael Torres — graduate in Sistemas e Mídias Digitais, UFC. Applied mathematics, deep learning, web development."
+>
+  <div class="px-4 md:px-14 py-24">
+    <div class="max-w-content mx-auto">
+      <p class="font-mono text-phi-xs text-orange uppercase tracking-widest mb-4">about</p>
+      <h1 class="font-sans text-phi-md md:text-phi-lg font-bold text-copy mb-16">Rafael Torres</h1>
+
+      <div class="grid md:grid-cols-3 gap-12 md:gap-16">
+
+        <!-- Bio -->
+        <div class="md:col-span-2 space-y-6">
+          <p class="font-sans text-phi-md text-copy leading-relaxed">
+            Graduate in Sistemas e Mídias Digitais from Universidade Federal do Ceará (UFC),
+            Fortaleza, Brasil.
+          </p>
+          <p class="font-sans text-phi-base text-muted leading-relaxed">
+            My undergraduate thesis integrated PyAFAR — a facial action unit detection library —
+            into a web application with an interactive dashboard, combining computer vision,
+            human-computer interaction, and software engineering.
+          </p>
+          <p class="font-sans text-phi-base text-muted leading-relaxed">
+            I am interested in problems where mathematics and computation meet visual and
+            audio media: how signals encode structure, how geometry shapes perception,
+            how models learn to see. I document that process here.
+          </p>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-10">
+          <div>
+            <p class="font-mono text-phi-xs text-muted uppercase tracking-widest mb-4">focus</p>
+            <ul class="space-y-2">
+              {['Applied Math for Multimedia', 'Deep Learning', 'Web Development'].map(item => (
+                <li class="font-sans text-phi-sm text-copy">{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p class="font-mono text-phi-xs text-muted uppercase tracking-widest mb-4">education</p>
+            <p class="font-sans text-phi-sm text-copy">Sistemas e Mídias Digitais</p>
+            <p class="font-mono text-phi-xs text-muted mt-1">UFC · 2026</p>
+          </div>
+
+          <div>
+            <p class="font-mono text-phi-xs text-muted uppercase tracking-widest mb-4">links</p>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="https://github.com/rafaelctorres"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-mono text-phi-xs text-orange hover:text-orange-dim transition-colors"
+                >
+                  github →
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="font-mono text-phi-xs text-orange hover:text-orange-dim transition-colors"
+                >
+                  linkedin →
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+</Layout>

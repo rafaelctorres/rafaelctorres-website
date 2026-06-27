@@ -1,0 +1,159 @@
+<canvas
+  id="hero-canvas"
+  aria-hidden="true"
+  class="absolute inset-0 w-full h-full"
+></canvas>
+
+<script>
+  // ─── Constants ───────────────────────────────
+  const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5)); // ≈ 137.5°
+  const N            = 80;
+  const REPEL_R      = 130;
+  const REPEL_STR    = 8;
+  const LERP         = 0.055;
+
+  // ─── Types ───────────────────────────────────
+  interface Shape {
+    ox: number; oy: number;
+    x:  number; y:  number;
+    vx: number; vy: number;
+    size:     number;
+    sides:    number;
+    rot:      number;
+    rotSpeed: number;
+    alpha:    number;
+  }
+
+  // ─── State ───────────────────────────────────
+  const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement;
+  const ctx    = canvas.getContext('2d')!;
+  let shapes: Shape[] = [];
+  let mx = -9999, my = -9999;
+  let raf: number;
+
+  // ─── Vogel spiral init ───────────────────────
+  function buildShapes() {
+    const w  = canvas.offsetWidth;
+    const h  = canvas.offsetHeight;
+    const cx = w / 2;
+    const cy = h / 2;
+    const R  = Math.min(w, h) * 0.42;
+
+    shapes = Array.from({ length: N }, (_, i) => {
+      const t     = i / N;
+      const r     = R * Math.sqrt(t);
+      const theta = i * GOLDEN_ANGLE;
+      const ox    = cx + r * Math.cos(theta);
+      const oy    = cy + r * Math.sin(theta);
+      return {
+        ox, oy, x: ox, y: oy,
+        vx: 0, vy: 0,
+        size:     3 + t * 10,
+        sides:    3 + Math.floor(t * 4),   // triangles → hexagons
+        rot:      Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.007,
+        alpha:    0.10 + t * 0.52,
+      };
+    });
+  }
+
+  // ─── Draw a regular polygon ───────────────────
+  function polygon(x: number, y: number, n: number, r: number, rot: number) {
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const a  = rot + (i / n) * Math.PI * 2;
+      const px = x + r * Math.cos(a);
+      const py = y + r * Math.sin(a);
+      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+  }
+
+  // ─── Animation loop ───────────────────────────
+  function tick() {
+    const w = canvas.offsetWidth;
+    const h = canvas.offsetHeight;
+    if (w === 0 || h === 0) { raf = requestAnimationFrame(tick); return; }
+
+    ctx.clearRect(0, 0, w, h);
+
+    for (const s of shapes) {
+      const dx = s.x - mx;
+      const dy = s.y - my;
+      const d  = Math.hypot(dx, dy) || 1;
+
+      if (d < REPEL_R) {
+        const f  = Math.pow(1 - d / REPEL_R, 2) * REPEL_STR;
+        s.vx    += (dx / d) * f;
+        s.vy    += (dy / d) * f;
+      }
+
+      s.vx *= 0.82;
+      s.vy *= 0.82;
+      s.x  += s.vx;
+      s.y  += s.vy;
+
+      // lerp back to spiral origin
+      s.x  += (s.ox - s.x) * LERP;
+      s.y  += (s.oy - s.y) * LERP;
+      s.rot += s.rotSpeed;
+
+      ctx.save();
+      ctx.globalAlpha  = s.alpha;
+      ctx.strokeStyle  = '#F97316';
+      ctx.lineWidth    = 1;
+      polygon(s.x, s.y, s.sides, s.size, s.rot);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    raf = requestAnimationFrame(tick);
+  }
+
+  // ─── Resize handler ───────────────────────────
+  function resize() {
+    const dpr      = window.devicePixelRatio || 1;
+    canvas.width   = canvas.offsetWidth  * dpr;
+    canvas.height  = canvas.offsetHeight * dpr;
+    ctx.scale(dpr, dpr);   // canvas.width= resets context state, so scale is safe
+    buildShapes();
+  }
+
+  // ─── Pointer interaction ──────────────────────
+  canvas.addEventListener('pointermove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mx = e.clientX - rect.left;
+    my = e.clientY - rect.top;
+  });
+  canvas.addEventListener('pointerleave', () => { mx = -9999; my = -9999; });
+
+  // ─── Resize ───────────────────────────────────
+  let resizeTimer: ReturnType<typeof setTimeout>;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      cancelAnimationFrame(raf);
+      resize();
+      tick();
+    }, 100);
+  });
+
+  // ─── Boot ─────────────────────────────────────
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  resize();
+
+  if (reduced) {
+    // single static frame for reduced-motion users
+    for (const s of shapes) {
+      ctx.save();
+      ctx.globalAlpha = s.alpha * 0.6;
+      ctx.strokeStyle = '#F97316';
+      ctx.lineWidth   = 1;
+      polygon(s.x, s.y, s.sides, s.size, s.rot);
+      ctx.stroke();
+      ctx.restore();
+    }
+  } else {
+    tick();
+  }
+</script>

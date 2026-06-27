@@ -1,0 +1,40 @@
+---
+import Layout from '../../components/Layout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props:  { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+  <article class="px-4 md:px-14 py-24">
+    <div class="max-w-content mx-auto">
+      <a href="/blog" class="font-mono text-phi-xs text-muted hover:text-orange transition-colors mb-12 inline-block">
+        ← back to blog
+      </a>
+      <header class="mb-16">
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+          <span class="font-mono text-phi-xs text-muted">{post.data.date.toISOString().slice(0, 10)}</span>
+          {post.data.tags.map(tag => (
+            <span class="font-mono text-phi-xs text-blue">{tag}</span>
+          ))}
+        </div>
+        <h1 class="font-sans text-phi-md md:text-phi-lg font-bold text-copy mb-4">{post.data.title}</h1>
+        <p class="font-sans text-phi-base text-muted">{post.data.description}</p>
+      </header>
+      <div class="prose"><Content /></div>
+    </div>
+  </article>
+</Layout>

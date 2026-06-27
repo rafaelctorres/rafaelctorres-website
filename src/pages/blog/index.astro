@@ -1,0 +1,45 @@
+---
+import Layout from '../../components/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="Blog" description="Writing about applied mathematics for multimedia, deep learning, and web development.">
+  <div class="px-4 md:px-14 py-24">
+    <div class="max-w-content mx-auto">
+      <p class="font-mono text-phi-xs text-orange uppercase tracking-widest mb-4">writing</p>
+      <h1 class="font-sans text-phi-md md:text-phi-lg font-bold text-copy mb-16">Blog</h1>
+
+      {posts.length === 0 ? (
+        <p class="font-mono text-phi-sm text-muted">No posts yet. Check back soon.</p>
+      ) : (
+        <ul>
+          {posts.map(post => (
+            <li class="border-b border-line">
+              <a href={`/blog/${post.id}`} class="flex items-start gap-6 md:gap-10 py-8 group">
+                <span class="font-mono text-phi-xs text-muted shrink-0 pt-1 w-24">
+                  {post.data.date.toISOString().slice(0, 10)}
+                </span>
+                <div class="flex-1">
+                  <h2 class="font-sans text-phi-md font-semibold text-copy mb-2 group-hover:text-orange transition-colors">
+                    {post.data.title}
+                  </h2>
+                  <p class="font-sans text-phi-sm text-muted mb-3 leading-relaxed">{post.data.description}</p>
+                  {post.data.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-3">
+                      {post.data.tags.map(tag => (
+                        <span class="font-mono text-phi-xs text-blue">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+</Layout>
