@@ -4,28 +4,51 @@
 
 @import "@fontsource/space-grotesk";
 @import "@fontsource/jetbrains-mono";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+	
+@import "tailwindcss";
 
 /* ==========================================================================
    CSS Variables
    ========================================================================== */
+@theme {
+  /* Colors */
+  --color-surface: #0d0d0f;
+  --color-raised: #1c1c21;
+  --color-line: #3a3a42;
+  --color-muted: #8a8a96;
+  --color-copy: #f0f0f4;
 
-:root {
-  --surface: #0d0d0f;
-  --raised: #1c1c21;
-  --line: #3a3a42;
-  --muted: #8a8a96;
-  --copy: #f0f0f4;
+  --color-orange: #f97316;
+  --color-orange-dim: #c25a0e;
 
-  --orange: #f97316;
-  --orange-dim: #c25a0e;
+  --color-blue: #0ea5e9;
+  --color-blue-dim: #0369a1;
 
-  --blue: #0ea5e9;
-  --blue-dim: #0369a1;
+  /* Fonts */
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, monospace;
+
+  /* Sizes */
+  --text-phi-xs: 10px;
+  --text-phi-sm: 13px;
+  --text-phi-base: 16px;
+  --text-phi-md: 26px;
+  --text-phi-lg: 42px;
+  --text-phi-xl: 68px;
+
+  /* Spacing */
+  --spacing-fib-1: 4px;
+  --spacing-fib-2: 8px;
+  --spacing-fib-3: 12px;
+  --spacing-fib-4: 20px;
+  --spacing-fib-5: 32px;
+  --spacing-fib-6: 52px;
+  --spacing-fib-7: 84px;
+  --spacing-fib-8: 136px;
+
+  --container-content: 1100px;
 }
+
 
 /* ==========================================================================
    Reset
@@ -48,8 +71,8 @@ html {
 
 body {
   min-height: 100vh;
-  background: var(--surface);
-  color: var(--copy);
+  background: var(--color-surface);
+  color: var(--color-copy);
   font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.65;
@@ -88,12 +111,12 @@ pre {
    ========================================================================== */
 
 ::selection {
-  background: var(--orange);
-  color: var(--surface);
+  background: var(--color-orange);
+  color: var(--color-surface);
 }
 
 :focus-visible {
-  outline: 2px solid var(--orange);
+  outline: 2px solid var(--color-orange);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -107,16 +130,16 @@ pre {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--surface);
+  background: var(--color-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--line);
+  background: var(--color-line);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
+  background: var(--color-muted);
 }
 
 /* ==========================================================================
@@ -154,7 +177,7 @@ pre {
 }
 
 .prose a {
-  color: var(--orange);
+  color: var(--color-orange);
 }
 
 .prose a:hover {
@@ -166,15 +189,15 @@ pre {
 }
 
 .prose code {
-  background: var(--raised);
+  background: var(--color-raised);
   padding: 0.15em 0.4em;
   border-radius: 4px;
   font-size: 0.9em;
 }
 
 .prose pre {
-  background: var(--raised);
-  border: 1px solid var(--line);
+  background: var(--color-raised);
+  border: 1px solid var(--color-line);
   border-radius: 10px;
   padding: 20px;
   overflow-x: auto;
@@ -197,7 +220,7 @@ pre {
 }
 
 .prose blockquote {
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--color-orange);
   padding-left: 20px;
   color: var(--muted);
   font-style: italic;
@@ -206,6 +229,6 @@ pre {
 
 .prose hr {
   border: none;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--color-line);
   margin: 2.5em 0;
 }
