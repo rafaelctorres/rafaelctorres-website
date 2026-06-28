@@ -22,13 +22,9 @@ const projects = (await getCollection('portfolio', ({ data }) => data.featured))
       <p class="font-mono text-phi-xs text-orange uppercase tracking-widest mb-4">
         Fortaleza, Brasil
       </p>
-      <h1 class="font-sans text-phi-lg md:text-phi-xl font-bold text-copy leading-none mb-6">
+      <h1 class="font-sans text-phi-lg md:text-phi-xl font-bold text-copy leading-none mb-10">
         Rafael<br />Torres
       </h1>
-      <p class="font-mono text-phi-sm text-muted mb-10 leading-relaxed">
-        Applied mathematics for multimedia.<br />
-        Deep learning. Web development.
-      </p>
       <div class="flex gap-4 flex-wrap justify-center">
         <a href="/portfolio"
           class="font-mono text-phi-xs uppercase tracking-widest border border-orange text-orange px-6 py-3 hover:bg-orange hover:text-surface transition-colors">
@@ -46,9 +42,9 @@ const projects = (await getCollection('portfolio', ({ data }) => data.featured))
   </section>
 
   <!-- ── Focus areas ────────────────────────────── -->
-  <section class="px-4 md:px-14 py-24">
+  <section class="px-4 md:px-14 pt-12 pb-24">
     <div class="max-w-content mx-auto text-center">
-      <p class="font-mono text-phi-xs text-muted uppercase tracking-widest mb-12">focus</p>
+      <p class="font-mono text-phi-xs text-muted uppercase tracking-widest mb-10">focus</p>
       <div class="grid md:grid-cols-3 gap-6">
         {[
           { n: '01', label: 'Applied Mathematics for Multimedia',
