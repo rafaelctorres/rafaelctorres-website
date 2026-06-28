@@ -13,7 +13,9 @@ const projects = (await getCollection('portfolio'))
       <h1 class="font-sans text-phi-md md:text-phi-lg font-bold text-copy mb-16">Portfolio</h1>
 
       {projects.length === 0 ? (
-        <p class="font-mono text-phi-sm text-muted">No projects yet. Coming soon.</p>
+        <p class="font-mono text-phi-sm text-muted">No projects here yet. Coming soon. Meanwhile, my work is available on my <a href="https://linkedin.com/rafaelctorres" class="font-mono text-phi-xs text-orange hover:text-orange-dim transition-colors">
+                linkedin
+              </a></p>
       ) : (
         <div class="grid md:grid-cols-2 gap-6">
           {projects.map(project => (
