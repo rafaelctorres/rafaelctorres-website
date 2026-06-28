@@ -1,19 +1,35 @@
 ---
 import Layout from '../components/Layout.astro';
+import VogelCanvas from '../components/VogelCanvas.astro';
 ---
 
 <Layout
   title="About"
-  description="Rafael Torres — graduate in Sistemas e Mídias Digitais, UFC. Applied mathematics, deep learning, web development."
+  description="Rafael Torres — graduate in Sistemas e Mídias Digitais, UFC."
 >
+
+  <!-- ── Spiral hero ────────────────────────────── -->
+  <section class="relative h-96 flex items-center justify-center overflow-hidden">
+    <VogelCanvas />
+    <div class="relative z-10 text-center">
+      <p class="font-mono text-phi-xs text-orange uppercase tracking-widest mb-3">
+        Sistemas e Mídias Digitais · UFC · 2026
+      </p>
+      <h1 class="font-sans text-phi-lg md:text-phi-xl font-bold text-copy">
+        Rafael Torres
+      </h1>
+    </div>
+    <div
+      class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+      style="background: linear-gradient(to bottom, transparent, #0D0D0F);"
+    ></div>
+  </section>
+
+  <!-- ── Bio ───────────────────────────────────── -->
   <div class="px-4 md:px-14 py-24">
     <div class="max-w-content mx-auto">
-      <p class="font-mono text-phi-xs text-orange uppercase tracking-widest mb-4">about</p>
-      <h1 class="font-sans text-phi-md md:text-phi-lg font-bold text-copy mb-16">Rafael Torres</h1>
-
       <div class="grid md:grid-cols-3 gap-12 md:gap-16">
 
-        <!-- Bio -->
         <div class="md:col-span-2 space-y-6">
           <p class="font-sans text-phi-md text-copy leading-relaxed">
             Graduate in Sistemas e Mídias Digitais from Universidade Federal do Ceará (UFC),
@@ -31,7 +47,6 @@ import Layout from '../components/Layout.astro';
           </p>
         </div>
 
-        <!-- Sidebar -->
         <aside class="space-y-10">
           <div>
             <p class="font-mono text-phi-xs text-muted uppercase tracking-widest mb-4">focus</p>
@@ -52,20 +67,13 @@ import Layout from '../components/Layout.astro';
             <p class="font-mono text-phi-xs text-muted uppercase tracking-widest mb-4">links</p>
             <ul class="space-y-3">
               <li>
-                <a
-                  href="https://github.com/rafaelctorres"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="font-mono text-phi-xs text-orange hover:text-orange-dim transition-colors"
-                >
+                <a href="https://github.com/rafaelctorres" target="_blank" rel="noopener noreferrer"
+                  class="font-mono text-phi-xs text-orange hover:text-orange-dim transition-colors">
                   github →
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="font-mono text-phi-xs text-orange hover:text-orange-dim transition-colors"
-                >
+                <a href="#" class="font-mono text-phi-xs text-orange hover:text-orange-dim transition-colors">
                   linkedin →
                 </a>
               </li>
@@ -76,4 +84,5 @@ import Layout from '../components/Layout.astro';
       </div>
     </div>
   </div>
+
 </Layout>

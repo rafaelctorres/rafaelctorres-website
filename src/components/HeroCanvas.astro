@@ -6,67 +6,38 @@
 
 <script>
   // ─── Constants ───────────────────────────────
-  const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5)); // ≈ 137.5°
-  const N            = 80;
-  const REPEL_R      = 130;
-  const REPEL_STR    = 8;
-  const LERP         = 0.055;
+  const N          = 90;
+  const MAX_EDGE_D = 165;
+  const REPEL_R    = 140;
+  const REPEL_STR  = 7;
+  const LERP       = 0.045;
 
-  // ─── Types ───────────────────────────────────
-  interface Shape {
+  interface Node {
     ox: number; oy: number;
     x:  number; y:  number;
     vx: number; vy: number;
-    size:     number;
-    sides:    number;
-    rot:      number;
-    rotSpeed: number;
-    alpha:    number;
+    r:  number;
   }
 
-  // ─── State ───────────────────────────────────
   const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement;
   const ctx    = canvas.getContext('2d')!;
-  let shapes: Shape[] = [];
+  let nodes: Node[] = [];
   let mx = -9999, my = -9999;
   let raf: number;
 
-  // ─── Vogel spiral init ───────────────────────
-  function buildShapes() {
-    const w  = canvas.offsetWidth;
-    const h  = canvas.offsetHeight;
-    const cx = w / 2;
-    const cy = h / 2;
-    const R  = Math.min(w, h) * 0.42;
-
-    shapes = Array.from({ length: N }, (_, i) => {
-      const t     = i / N;
-      const r     = R * Math.sqrt(t);
-      const theta = i * GOLDEN_ANGLE;
-      const ox    = cx + r * Math.cos(theta);
-      const oy    = cy + r * Math.sin(theta);
+  // ─── Node placement ──────────────────────────
+  function buildNodes() {
+    const w = canvas.offsetWidth;
+    const h = canvas.offsetHeight;
+    nodes = Array.from({ length: N }, () => {
+      const x = Math.random() * w;
+      const y = Math.random() * h;
       return {
-        ox, oy, x: ox, y: oy,
+        ox: x, oy: y, x, y,
         vx: 0, vy: 0,
-        size:     3 + t * 10,
-        sides:    3 + Math.floor(t * 4),   // triangles → hexagons
-        rot:      Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.007,
-        alpha:    0.10 + t * 0.52,
+        r: 1.5 + Math.random() * 2,
       };
     });
-  }
-
-  // ─── Draw a regular polygon ───────────────────
-  function polygon(x: number, y: number, n: number, r: number, rot: number) {
-    ctx.beginPath();
-    for (let i = 0; i < n; i++) {
-      const a  = rot + (i / n) * Math.PI * 2;
-      const px = x + r * Math.cos(a);
-      const py = y + r * Math.sin(a);
-      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-    }
-    ctx.closePath();
   }
 
   // ─── Animation loop ───────────────────────────
@@ -77,49 +48,76 @@
 
     ctx.clearRect(0, 0, w, h);
 
-    for (const s of shapes) {
-      const dx = s.x - mx;
-      const dy = s.y - my;
+    // physics
+    for (const n of nodes) {
+      const dx = n.x - mx;
+      const dy = n.y - my;
       const d  = Math.hypot(dx, dy) || 1;
 
       if (d < REPEL_R) {
         const f  = Math.pow(1 - d / REPEL_R, 2) * REPEL_STR;
-        s.vx    += (dx / d) * f;
-        s.vy    += (dy / d) * f;
+        n.vx    += (dx / d) * f;
+        n.vy    += (dy / d) * f;
       }
 
-      s.vx *= 0.82;
-      s.vy *= 0.82;
-      s.x  += s.vx;
-      s.y  += s.vy;
+      n.vx *= 0.84;
+      n.vy *= 0.84;
+      n.x  += n.vx;
+      n.y  += n.vy;
+      n.x  += (n.ox - n.x) * LERP;
+      n.y  += (n.oy - n.y) * LERP;
+    }
 
-      // lerp back to spiral origin
-      s.x  += (s.ox - s.x) * LERP;
-      s.y  += (s.oy - s.y) * LERP;
-      s.rot += s.rotSpeed;
+    // draw edges
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a  = nodes[i];
+        const b  = nodes[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d  = Math.hypot(dx, dy);
+
+        if (d < MAX_EDGE_D) {
+          ctx.save();
+          ctx.globalAlpha = (1 - d / MAX_EDGE_D) * 0.28;
+          ctx.strokeStyle = '#F97316';
+          ctx.lineWidth   = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }
+
+    // draw nodes
+    for (const n of nodes) {
+      const dx   = n.x - mx;
+      const dy   = n.y - my;
+      const near = Math.hypot(dx, dy) < REPEL_R;
 
       ctx.save();
-      ctx.globalAlpha  = s.alpha;
-      ctx.strokeStyle  = '#F97316';
-      ctx.lineWidth    = 1;
-      polygon(s.x, s.y, s.sides, s.size, s.rot);
-      ctx.stroke();
+      ctx.globalAlpha = near ? 0.9 : 0.55;
+      ctx.fillStyle   = near ? '#F97316' : '#0EA5E9';
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fill();
       ctx.restore();
     }
 
     raf = requestAnimationFrame(tick);
   }
 
-  // ─── Resize handler ───────────────────────────
+  // ─── Resize ───────────────────────────────────
   function resize() {
-    const dpr      = window.devicePixelRatio || 1;
-    canvas.width   = canvas.offsetWidth  * dpr;
-    canvas.height  = canvas.offsetHeight * dpr;
-    ctx.scale(dpr, dpr);   // canvas.width= resets context state, so scale is safe
-    buildShapes();
+    const dpr     = window.devicePixelRatio || 1;
+    canvas.width  = canvas.offsetWidth  * dpr;
+    canvas.height = canvas.offsetHeight * dpr;
+    ctx.scale(dpr, dpr);
+    buildNodes();
   }
 
-  // ─── Pointer interaction ──────────────────────
   canvas.addEventListener('pointermove', (e) => {
     const rect = canvas.getBoundingClientRect();
     mx = e.clientX - rect.left;
@@ -127,7 +125,6 @@
   });
   canvas.addEventListener('pointerleave', () => { mx = -9999; my = -9999; });
 
-  // ─── Resize ───────────────────────────────────
   let resizeTimer: ReturnType<typeof setTimeout>;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -138,22 +135,7 @@
     }, 100);
   });
 
-  // ─── Boot ─────────────────────────────────────
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   resize();
-
-  if (reduced) {
-    // single static frame for reduced-motion users
-    for (const s of shapes) {
-      ctx.save();
-      ctx.globalAlpha = s.alpha * 0.6;
-      ctx.strokeStyle = '#F97316';
-      ctx.lineWidth   = 1;
-      polygon(s.x, s.y, s.sides, s.size, s.rot);
-      ctx.stroke();
-      ctx.restore();
-    }
-  } else {
-    tick();
-  }
+  if (!reduced) tick();
 </script>
