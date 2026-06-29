@@ -3,6 +3,7 @@ import Layout from '../components/Layout.astro';
 import HeroCanvas from '../components/HeroCanvas.astro';
 import { getCollection } from 'astro:content';
 
+// Lógica de busca dos dados [cite: 1, 2, 3]
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
@@ -14,16 +15,15 @@ const projects = (await getCollection('portfolio', ({ data }) => data.featured))
 
 <Layout title="Home">
 
-  <!-- ── Hero ───────────────────────────────────── -->
   <section class="relative min-h-screen flex items-center justify-center">
     <HeroCanvas />
 
-    <div class="relative z-10 flex flex-col items-center text-center px-4 py-24">
-      <p class="font-mono text-phi-xs text-orange uppercase tracking-widest mb-4">
+    <div class="relative z-10 flex flex-col items-center text-center px-4 py-24 gap-y-8">
+      <p class="font-mono text-phi-xs text-orange uppercase tracking-widest">
         Fortaleza, Brasil
       </p>
-      <h1 class="font-sans text-phi-lg md:text-phi-xl font-bold text-copy leading-none mb-10">
-        Rafael<br />Torres
+      <h1 class="font-sans text-phi-lg md:text-phi-xl font-bold text-copy leading-none">
+        Rafael C. Torres
       </h1>
       <div class="flex gap-4 flex-wrap justify-center">
         <a href="/portfolio"
@@ -41,20 +41,25 @@ const projects = (await getCollection('portfolio', ({ data }) => data.featured))
       style="background: linear-gradient(to bottom, transparent, #0D0D0F);"></div>
   </section>
 
-  <!-- ── Focus areas ────────────────────────────── -->
+  <!-- Seção "focus" reformulada com flexbox para centralização perfeita -->
   <section class="px-4 md:px-14 pt-12 pb-24">
-    <div class="max-w-content mx-auto text-center">
+    <div class="text-center">
       <p class="font-mono text-phi-xs text-muted uppercase tracking-widest mb-10">focus</p>
-      <div class="grid md:grid-cols-3 gap-6">
+      <!-- Container flex com wrap e centralização -->
+      <div class="flex flex-wrap justify-center gap-6">
         {[
           { n: '01', label: 'Applied Mathematics for Multimedia',
-            desc: 'Signal processing, spectral analysis, geometric algebra, and the mathematical foundations of visual and audio media.' },
+            desc: 'Signal processing, spectral analysis, geometric algebra, and the mathematical foundations of visual and audio media.'
+          },
           { n: '02', label: 'Deep Learning',
-            desc: 'Computer vision, facial action unit detection, model evaluation pipelines, and applied machine learning research.' },
+            desc: 'Computer vision, facial action unit detection, model evaluation pipelines, and applied machine learning research.'
+          },
           { n: '03', label: 'Web Development',
-            desc: 'WebGL, real-time rendering, interactive systems, and creative tooling — interfaces that demonstrate ideas directly.' },
+            desc: 'WebGL, real-time rendering, interactive systems, and creative tooling — interfaces that demonstrate ideas directly.'
+          },
         ].map(({ n, label, desc }) => (
-          <div class="border border-line p-8 hover:border-orange transition-colors group text-center">
+          // Comentário JavaScript – ou remova esta linha
+          <div class="border border-line p-8 hover:border-orange transition-colors group text-center w-full max-w-sm flex-1 min-w-[250px]">
             <span class="font-mono text-phi-xs text-orange block mb-4">{n}</span>
             <h2 class="font-sans text-phi-base font-semibold text-copy mb-3 group-hover:text-orange transition-colors">{label}</h2>
             <p class="font-sans text-phi-sm text-muted leading-relaxed">{desc}</p>
@@ -64,7 +69,6 @@ const projects = (await getCollection('portfolio', ({ data }) => data.featured))
     </div>
   </section>
 
-  <!-- ── Recent posts ───────────────────────────── -->
   {posts.length > 0 && (
     <section class="px-4 md:px-14 py-16 border-t border-line">
       <div class="max-w-content mx-auto">
@@ -92,7 +96,6 @@ const projects = (await getCollection('portfolio', ({ data }) => data.featured))
     </section>
   )}
 
-  <!-- ── Featured projects ─────────────────────── -->
   {projects.length > 0 && (
     <section class="px-4 md:px-14 py-16 border-t border-line">
       <div class="max-w-content mx-auto">

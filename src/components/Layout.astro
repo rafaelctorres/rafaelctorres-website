@@ -30,15 +30,16 @@ const {
     <main>
       <slot />
     </main>
-    <footer class="border-t border-line mt-32 py-8 px-4 md:px-14">
-      <div class="max-w-content mx-auto flex items-center justify-between">
-        <span class="font-mono text-phi-xs text-muted">
-          © {new Date().getFullYear()} Rafael Torres
-        </span>
-        <span class="font-mono text-phi-xs text-muted">
-          Code: MIT · Content: CC BY 4.0
-        </span>
-      </div>
-    </footer>
+<footer class="border-t border-line mt-32 py-8 px-4 md:px-14">
+  <!-- Container sem max-w, ocupando 100% da largura -->
+  <div class="w-full flex items-center justify-between">
+    <span class="font-mono text-phi-xs text-muted">
+      © {new Date().getFullYear()} Rafael Torres
+    </span>
+    <span class="font-mono text-phi-xs text-muted">
+      License - Code: MIT · Content: CC BY 4.0
+    </span>
+  </div>
+</footer>
   </body>
 </html>
