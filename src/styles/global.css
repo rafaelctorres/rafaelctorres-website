@@ -52,3 +52,40 @@ code, pre { font-family:var(--font-mono); }
 .prose hr { border:none; border-top:1px solid var(--color-line); margin:2.5em 0; }
 .prose .katex { font-size:1.05em; }
 .prose .katex-display { overflow-x:auto; padding:0.5em 0; }
+
+/* ─── Term tooltip ───────────────────────────── */
+.term-root {
+  position: relative;
+  display: inline;
+}
+.term-word {
+  background: var(--color-raised);
+  border-bottom: 1px dashed var(--color-orange);
+  padding: 0.05em 0.25em;
+  border-radius: 3px;
+  cursor: help;
+}
+.term-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-raised);
+  border: 1px solid var(--color-line);
+  color: var(--color-copy);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  padding: 0.4em 0.75em;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.term-root:hover .term-tooltip,
+.term-root:focus-within .term-tooltip {
+  opacity: 1;
+}

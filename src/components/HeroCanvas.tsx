@@ -31,11 +31,12 @@ export default function HeroCanvas() {
         n.x+=(n.ox-n.x)*LERP; n.y+=(n.oy-n.y)*LERP;
       }
       for (let i=0;i<nodes.length;i++) for (let j=i+1;j<nodes.length;j++) {
-        const a=nodes[i],b=nodes[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+        const a=nodes[i], b=nodes[j], d=Math.hypot(a.x-b.x,a.y-b.y);
         if (d<MAX_D) {
           ctx!.save(); ctx!.globalAlpha=(1-d/MAX_D)*0.32;
           ctx!.strokeStyle='#F97316'; ctx!.lineWidth=1.4;
-          ctx!.beginPath(); ctx!.moveTo(a.x,a.y); ctx!.lineTo(b.x,b.y); ctx!.stroke(); ctx!.restore();
+          ctx!.beginPath(); ctx!.moveTo(a.x,a.y); ctx!.lineTo(b.x,b.y);
+          ctx!.stroke(); ctx!.restore();
         }
       }
       for (const n of nodes) {
@@ -54,22 +55,34 @@ export default function HeroCanvas() {
       ctx!.scale(dpr,dpr); build();
     }
 
-    const onMove=(e:PointerEvent)=>{const r=canvas!.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;};
-    const onLeave=()=>{mx=-9999;my=-9999;};
-    let timer: ReturnType<typeof setTimeout>;
-    const onResize=()=>{clearTimeout(timer);timer=setTimeout(()=>{cancelAnimationFrame(raf);resize();tick();},100);};
+    // ── listener no window, não no canvas ─────────────────────────────────
+    // assim funciona mesmo quando o mouse está sobre o texto ou os botões
+    const onMove = (e: PointerEvent) => {
+      const rect = canvas!.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+        mx = x; my = y;
+      } else {
+        mx = -9999; my = -9999;
+      }
+    };
 
-    canvas.addEventListener('pointermove',onMove);
-    canvas.addEventListener('pointerleave',onLeave);
-    window.addEventListener('resize',onResize);
+    let timer: ReturnType<typeof setTimeout>;
+    const onResize = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { cancelAnimationFrame(raf); resize(); tick(); }, 100);
+    };
+
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('resize', onResize);
     resize();
     if (!matchMedia('(prefers-reduced-motion:reduce)').matches) tick();
 
     return () => {
       cancelAnimationFrame(raf); clearTimeout(timer);
-      canvas.removeEventListener('pointermove',onMove);
-      canvas.removeEventListener('pointerleave',onLeave);
-      window.removeEventListener('resize',onResize);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 

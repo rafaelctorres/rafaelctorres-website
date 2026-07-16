@@ -98,14 +98,19 @@ function HeroCanvas() {
             ctx.scale(dpr, dpr);
             build();
         }
+        // ── listener no window, não no canvas ─────────────────────────────────
+        // assim funciona mesmo quando o mouse está sobre o texto ou os botões
         const onMove = (e)=>{
-            const r = canvas.getBoundingClientRect();
-            mx = e.clientX - r.left;
-            my = e.clientY - r.top;
-        };
-        const onLeave = ()=>{
-            mx = -9999;
-            my = -9999;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                mx = x;
+                my = y;
+            } else {
+                mx = -9999;
+                my = -9999;
+            }
         };
         let timer;
         const onResize = ()=>{
@@ -116,16 +121,14 @@ function HeroCanvas() {
                 tick();
             }, 100);
         };
-        canvas.addEventListener('pointermove', onMove);
-        canvas.addEventListener('pointerleave', onLeave);
+        window.addEventListener('pointermove', onMove);
         window.addEventListener('resize', onResize);
         resize();
         if (!matchMedia('(prefers-reduced-motion:reduce)').matches) tick();
         return ()=>{
             cancelAnimationFrame(raf);
             clearTimeout(timer);
-            canvas.removeEventListener('pointermove', onMove);
-            canvas.removeEventListener('pointerleave', onLeave);
+            window.removeEventListener('pointermove', onMove);
             window.removeEventListener('resize', onResize);
         };
     }, []);
@@ -135,7 +138,7 @@ function HeroCanvas() {
         className: "absolute inset-0 w-full h-full"
     }, void 0, false, {
         fileName: "[project]/src/components/HeroCanvas.tsx",
-        lineNumber: 76,
+        lineNumber: 89,
         columnNumber: 10
     }, this);
 }

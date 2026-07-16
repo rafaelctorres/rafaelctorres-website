@@ -122,6 +122,7 @@ function getBlogPosts() {
             title: data.title,
             description: data.description,
             date: new Date(data.date).toISOString(),
+            updatedAt: data.updatedAt ? new Date(data.updatedAt).toISOString() : undefined,
             tags: data.tags ?? [],
             draft: data.draft ?? false
         };
@@ -289,17 +290,17 @@ function HomePage() {
                                 {
                                     n: '01',
                                     label: 'Applied Mathematics for Multimedia',
-                                    desc: 'Signal processing, spectral analysis, geometric algebra, and the mathematical foundations of visual and audio media.'
+                                    desc: 'Applied computational geometry, interactive mathematical experiments and the foundations of visual and audio media.'
                                 },
                                 {
                                     n: '02',
-                                    label: 'Deep Learning',
+                                    label: 'Machine Learning',
                                     desc: 'Computer vision, facial action unit detection, model evaluation pipelines, and applied machine learning research.'
                                 },
                                 {
                                     n: '03',
                                     label: 'Web Development',
-                                    desc: 'WebGL, real-time rendering, interactive systems, and creative tooling — interfaces that demonstrate ideas directly.'
+                                    desc: 'WebGL, real-time rendering, interactive systems, and creative tooling'
                                 }
                             ].map(({ n, label, desc })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "border border-line hover:border-orange transition-colors group",
@@ -411,13 +412,7 @@ function HomePage() {
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "font-mono text-phi-xs text-orange",
-                                                style: {
-                                                    opacity: 0,
-                                                    transition: 'opacity 0.2s'
-                                                },
-                                                onMouseEnter: (e)=>e.currentTarget.style.opacity = '1',
-                                                onMouseLeave: (e)=>e.currentTarget.style.opacity = '0',
+                                                className: "font-mono text-phi-xs text-orange opacity-0 group-hover:opacity-100 transition-opacity",
                                                 children: "→"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
@@ -450,7 +445,7 @@ function HomePage() {
                             children: "all posts →"
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 95,
+                            lineNumber: 93,
                             columnNumber: 13
                         }, this)
                     ]
@@ -480,7 +475,7 @@ function HomePage() {
                             children: "featured work"
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 107,
+                            lineNumber: 105,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -505,7 +500,7 @@ function HomePage() {
                                             children: p.title
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 115,
+                                            lineNumber: 113,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -517,7 +512,7 @@ function HomePage() {
                                             children: p.description
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 115,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -531,23 +526,23 @@ function HomePage() {
                                                     children: t
                                                 }, t, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 119,
+                                                    lineNumber: 117,
                                                     columnNumber: 38
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 118,
+                                            lineNumber: 116,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, p.slug, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 112,
+                                    lineNumber: 110,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 110,
+                            lineNumber: 108,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
@@ -560,18 +555,18 @@ function HomePage() {
                             children: "all projects →"
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 124,
+                            lineNumber: 122,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 106,
+                    lineNumber: 104,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 105,
+                lineNumber: 103,
                 columnNumber: 9
             }, this)
         ]

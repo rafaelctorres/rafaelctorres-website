@@ -63,7 +63,7 @@ export default function MathTransition() {
       <canvas ref={ref} aria-hidden="true" className="absolute inset-0 w-full h-full" />
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
         <span className="font-mono text-phi-xs text-copy" style={{opacity:0.15,letterSpacing:'0.18em'}}>
-          f(x,t) = ∑ aₙ · sin(φⁿkx − ωt)
+          
         </span>
       </div>
     </div>

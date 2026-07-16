@@ -1,11 +1,1 @@
-{
-  "version": 4,
-  "routes": {},
-  "dynamicRoutes": {},
-  "notFoundRoutes": [],
-  "preview": {
-    "previewModeId": "559dc1d09075911e40aad64aa1b67860",
-    "previewModeSigningKey": "576216561354b9c04286bae31f3eba2875092695f4ad95107d55f495ff48e24a",
-    "previewModeEncryptionKey": "f70dc7cf24a1ec19e74e5c4a12fbd5f3aa7e939e390599ea5597847857a4bd38"
-  }
-}
+{"version":4,"routes":{"/blog/primeiro-post":{}},"dynamicRoutes":{"/blog/[slug]":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/blog/[slug]","routeRegex":"^\\/blog\\/([^/]+?)(?:\\/)?$","allowHeader":[]}},"notFoundRoutes":[],"preview":{"previewModeId":"bf25f2e3bbc8734cbfafa475407a92f0","previewModeSigningKey":"cf57299a9b00c03ec81e8755e24e520bd2e9dc4301fd721d0f0cd072e746c1c8","previewModeEncryptionKey":"19c08e8941c918c7f54d41a46b0c34b1382f0dd0c6f97236aabb0d4fb06d4557"}}

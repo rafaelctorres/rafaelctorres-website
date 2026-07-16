@@ -59,7 +59,7 @@ export default function AboutPage() {
             <div className="flex flex-col items-center" style={{gap:'0.75rem'}}>
               <p className="font-mono text-phi-xs text-muted uppercase tracking-widest">focus</p>
               <ul className="flex flex-col items-center list-none m-0 p-0" style={{gap:'0.25rem'}}>
-                {['Applied Math for Multimedia','Deep Learning','Web Development'].map(i=>(
+                {['Applied Math for Multimedia','Machine Learning','Web Development'].map(i=>(
                   <li key={i} className="font-sans text-phi-sm text-copy">{i}</li>
                 ))}
               </ul>

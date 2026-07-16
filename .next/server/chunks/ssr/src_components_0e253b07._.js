@@ -334,8 +334,7 @@ function MathTransition() {
                     style: {
                         opacity: 0.15,
                         letterSpacing: '0.18em'
-                    },
-                    children: "f(x,t) = ∑ aₙ · sin(φⁿkx − ωt)"
+                    }
                 }, void 0, false, {
                     fileName: "[project]/src/components/MathTransition.tsx",
                     lineNumber: 65,

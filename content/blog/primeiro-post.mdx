@@ -1,0 +1,120 @@
+---
+title: "O início: construindo este site"
+description: "Esta é a primeira publicação do blog, e faz sentido que ela seja sobre o próprio processo de construí-lo."
+date: "2025-07-13"
+updatedAt: "2025-07-13T13:03:00-03:00"
+tags: ["desenvolvimento web", "matemática aplicada"]
+draft: false
+---
+
+Olá, esta é a primeira publicação do blog, que também será um meta-post, por assim dizer. Neste blog, que tem como objetivo documentar minha trajetória e estudos envolvendo temas como Machine Learning, Matemática Aplicada a Multimídia e Desenvolvimento Web, não deve ser encontrada a perfeição técnica, mas relatos dos meus processos de aprendizado, que espero que possam contribuir de alguma forma com as experiências de vocês.
+
+Não pretendo utilizar uma linguagem estritamente formal, mas uma que seja fluida e natural a mim, tentando transmitir clareza e objetividade. Essa decisão reflete o objetivo do blog de documentar o meu percurso, ao invés de ser uma exposição formal e enxuta do meu trabalho. Além disso, valorizarei mais expor o pensamento lógico por trás de cada decisão e o processo de construção das soluções do que priorizar tecnologias específicas e suas características — que podem, por vezes, ser tratadas como aspectos secundários por aqui.
+
+Com o objetivo de diminuir as barreiras de acesso ao que é exposto aqui, cada palavra que pertença a um linguajar técnico específico terá um destaque ao passar o mouse por cima, com uma breve descrição contextual, para que leitores sem conhecimentos específicos possam acompanhar a leitura e os processos de construção das implementações. E, para falar a verdade, o linguajar técnico tem tantos termos que eu mesmo às vezes esqueço o que significa algum — de modo que essa funcionalidade também me ajudará a entender meu próprio texto, quando eu porventura o ler novamente.
+
+---
+
+## A identidade visual
+
+Para a tipografia, escolhi o *Space Grotesk* para os títulos e textos corridos. É uma fonte geométrica, mas com irregularidades sutis que a afastam da rigidez matemática pura — o que me pareceu adequado para um espaço que fala de matemática pela perspectiva de quem a aprende. Já o *JetBrains Mono* ficou reservado para código, labels, datas e metadados, trazendo a precisão técnica que esses elementos pedem. A presença de uma fonte monospace fora dos blocos de código é intencional: é um jeito silencioso de sinalizar que o pensamento técnico permeia o espaço.
+
+Para as cores, a lógica foi mais intuitiva do que sistemática. O laranja — presente nos acentos interativos, nos elementos em destaque e nas bordas que respondem ao cursor — carrega uma sensação de dinamismo e energia, e indica onde algo acontece. O azul ficou com os elementos de fluxo: as conexões da malha de grafos, as categorias, as relações. Há nele uma sensação de continuidade, de algo que conecta sem interromper. O fundo escuro, além da questão estética, reduz o ruído visual e deixa os elementos matemáticos respirarem.
+
+O espaçamento entre os elementos segue a sequência de Fibonacci (4, 8, 12, 20, 32, 52, 84, 136 pixels), e a escala tipográfica é derivada da razão áurea (φ ≈ 1,618): cada tamanho de texto é o anterior multiplicado por φ. Essas escolhas não são diretamente visíveis, mas criam um ritmo que o olho reconhece sem identificar.
+
+---
+
+## A escolha do <Term def="conjunto de tecnologias escolhidas para um projeto">stack</Term>
+
+O <Term def="conjunto de tecnologias escolhidas para um projeto">stack</Term> a ser utilizado nesta aplicação foi o primeiro aspecto a ser considerado para o desenvolvimento, com as principais opções sendo Astro e Next.js. Eu acredito que, contanto que o problema em curso seja resolvido, a tecnologia específica é de menor importância. Mas, ainda assim, é válido procurar por otimizações e antecipar mudanças, ainda mais quando a profissionalidade é um dos fatores cruciais para o projeto.
+
+Astro pareceu uma escolha atraente por tratar posts de blog como arquivos <Term def="formato que combina Markdown com componentes React, permitindo conteúdo rico e interativo">MDX</Term> nativamente com zero configuração, gerar páginas estáticas com <Term def="conjunto de práticas para melhorar a visibilidade de um site nos mecanismos de busca">SEO</Term> excelente e permitir <Term def="partes interativas isoladas em páginas predominantemente estáticas">ilhas de interatividade</Term> onde for preciso. As primeiras implementações foram feitas em Astro, com o arcabouço inicial sendo composto por quatro páginas: Home, Blog, Portfolio e About. A arquitetura foi definida de modo a organizar o código e facilitar a manutenção.
+
+<FileTree />
+
+A decisão de migrar para <Term def="framework React para construção de aplicações web com renderização híbrida servidor/cliente">Next.js</Term> veio depois, quando percebi que a interatividade seria um ponto central — não só nos elementos visuais da interface, mas dentro das próprias publicações do blog. Quando <Term def="blocos reutilizáveis de interface que encapsulam lógica e apresentação">componentes</Term> interativos passam a ser reutilizados dentro do conteúdo, a arquitetura precisa favorecer isso, e o React resolve esse problema com mais naturalidade. Falo mais sobre essa migração adiante.
+
+---
+
+## A espiral de Vogel
+
+Ainda em Astro, foram adicionados os dois primeiros elementos interativos: uma espiral de Vogel e uma malha de grafos, ambos se movimentando com o cursor. A espiral de Vogel é um exemplo interessante de como a matemática está presente em elementos da natureza. Ela foi descoberta por um botânico que estudava a disposição das sementes em um girassol, e descreve, com apenas duas regras simples em <Term def="sistema que descreve a posição de um ponto pelo seu ângulo e distância em relação a um centro">coordenadas polares</Term>, a geometria mais eficiente para preencher um espaço circular sem desperdício.
+
+**Ângulo (θ):** cada nova semente é rotacionada em 137,5° em relação à anterior. Esse ângulo é conhecido como Ângulo de Ouro, derivado da razão áurea: 360° / φ² ≈ 137,5°. Sendo esse o ângulo, nenhuma semente se alinha exatamente a outra, de modo que nenhum espaço é desperdiçado.
+
+**Raio (r):** a distância do centro aumenta proporcionalmente à raiz quadrada do índice da semente: r = c · √n, onde c é uma constante de escala e n é o número da semente.
+
+<Callout type="curiosidade">
+  Essa disposição não é exclusiva dos girassóis — ela também está presente em pinhas, abacaxis, couve-flor e cactos, além de ser usada como recurso de design, quando se quer aproveitar melhor a disposição de um espaço, e em visualização de dados, para distribuir pontos em gráficos sem que eles se amontoem no centro.
+</Callout>
+
+O código abaixo implementa essa espiral. Experimente modificar `numPoints` ou `scale` e observar como a estrutura se transforma.
+
+<SandpackDemo demo="vogel" />
+
+---
+
+## A malha de grafos
+
+O outro elemento, a malha de grafos, foi escolhido pelo fato de os grafos estarem presentes, de diversas maneiras, em aplicações tecnológicas. Na matemática, um <Term def="estrutura composta por vértices conectados por arestas">grafo</Term> é um conjunto de <Term def="pontos de um grafo, também chamados de nós">vértices</Term> conectados por <Term def="ligações entre os vértices de um grafo">arestas</Term>. Na tecnologia, isso se traduz em pontos relacionados, e uma das belezas dos grafos está em modelar sistemas complexos que são difíceis de descrever com equações lineares ou tabelas de banco de dados: redes sociais, conexões entre neurônios, rotas de transporte — todos são grafos.
+
+Na implementação em questão, o grafo é formado em tempo real, a cada <Term def="cada imagem desenhada pela animação — a 60 frames por segundo, há 60 redesenhos por segundo">frame</Term>. Não há arestas armazenadas em memória: o algoritmo percorre todas as combinações possíveis de pares de nós e desenha uma linha se, e somente se, a <Term def="distância em linha reta entre dois pontos no espaço, calculada pelo teorema de Pitágoras">distância euclidiana</Term> entre eles for menor que 165 pixels. Se a distância for maior, não há aresta, e o grafo se "parte" visualmente. Isso o caracteriza como um Grafo de Limiar Geométrico: a vizinhança de cada nó é definida por um círculo de raio fixo ao redor dele.
+
+<CanvasDemo type="nodes" />
+
+Cada nó possui uma posição original gerada aleatoriamente no início. A cada frame, o nó é puxado de volta para essa posição por uma força elástica fraca — o que os programadores chamam de <Term def="interpolação linear: transição suave e gradual entre dois valores, como 10% do caminho por vez">LERP</Term>. Isso faz com que o grafo sempre tente voltar à sua forma inicial, uma espécie de repouso aleatório.
+
+Quando o mouse (ou o dedo) se aproxima de um nó a uma distância menor que 140 pixels, o nó é empurrado para longe do cursor. A força é proporcional ao quadrado da proximidade, ficando mais forte quanto mais perto o cursor está — o que cria o efeito de afastamento interativo. Os nós também têm velocidade, que é multiplicada a cada frame por 0,84, um fator de <Term def="redução gradual da velocidade ao longo do tempo que evita que o movimento continue indefinidamente">amortecimento</Term> que impede que eles fiquem vibrando para sempre e dá uma sensação suave e "gomosa" aos movimentos.
+
+<CanvasDemo type="repulsion" />
+
+Experimente modificar o raio máximo de conexão (`MAX_D`) no editor abaixo e observe como o grafo se fragmenta ou se adensa.
+
+<SandpackDemo demo="graph" />
+
+<Callout type="curiosidade">
+  Eu, particularmente, gostei do visual. A aleatoriedade e a interconectividade dessa malha tanto me lembram nós de conexões em redes neurais quanto constelações. Você sabia que a palavra *desejo* vem do latim *desiderare*, que literalmente significa algo como estar desconectado dos astros?
+</Callout>
+
+---
+
+## As ondas de Fourier
+
+O desenvolvimento seguiu com a definição da disposição dos elementos nas páginas, entre centralizados ou dispostos às margens, quando eventualmente foi adicionado mais um elemento interativo, para separar duas seções da página About: curvas regidas por funções senoidais entrelaçadas. Na primeira implementação, as curvas se movimentavam espontaneamente, mas percebi que isso as fazia disputar atenção com os textos — então o movimento foi atrelado ao scroll da página. As ondas se movem enquanto o usuário rola; quando a leitura para, elas param.
+
+A frequência espacial — isto é, quantas "oscilações" a onda faz ao cruzar o espaço — é calculada a partir de um valor base (k₀), multiplicado por potências do número de ouro: a primeira onda usa k₀, a segunda k₀ · φ e a terceira k₀ · φ². Isso evita repetições e deixa o movimento mais natural, sem ser aleatório. Cada onda também tem uma amplitude, uma cor e uma velocidade de deslocamento diferentes, e a curva branca é a soma das três componentes, ponto a ponto.
+
+<Callout type="info">
+  Esse processo de construir um sinal como soma de senoides é chamado de síntese de Fourier. É o mesmo princípio que permite a um microfone registrar sons complexos e a um equalizador separar graves de agudos — e está na base de boa parte do processamento de sinais em áudio e imagem.
+</Callout>
+
+---
+
+## A migração para Next.js
+
+Neste ponto, com os elementos interativos funcionando em Astro, decidi refazer o código utilizando React e Next.js, por perceber que a interatividade seria um ponto central da aplicação. Dois fatores pesaram na decisão: os <Term def="blocos reutilizáveis de interface que encapsulam lógica e apresentação">componentes</Term> interativos seriam muito comumente reutilizados dentro do conteúdo do blog — como está acontecendo nesta publicação — e a quantidade de lógica de interface compartilhada entre as páginas só tenderia a crescer.
+
+Para a <Term def="reestruturação do código para melhorar sua organização, sem alterar o comportamento visível">refatoração</Term>, foi utilizada a arquitetura inicial, adaptada para o esquema React + Next.js. Visualmente, nada mudou: o design system, as cores, as fontes e os elementos interativos foram integralmente reaproveitados.
+
+<FileTree />
+
+---
+
+## Os elementos deste blog
+
+Escrever sobre construção de software levanta um problema simples: código é difícil de tornar acessível sem que a explicação fique mais densa do que o próprio código. A escolha dos elementos interativos deste blog foi uma tentativa de resolver isso.
+
+Os destaques de termos técnicos existem para que leitores sem formação específica possam acompanhar o raciocínio sem precisar abrir outra aba. Decidi marcar os termos ao invés de evitá-los porque acredito que o linguajar técnico não precisa ser uma barreira.
+
+As caixas de curiosidade e de informação adicional trazem uma dimensão que o texto corrido não permite: a curiosidade pode fugir do tema sem interromper o fluxo, e a informação adicional aprofunda sem obrigar o leitor a parar. Daí as cores distintas — laranja para o que foge tangencialmente, azul para o que aprofunda.
+
+Já as mini-animações e os editores de código interativos existem porque há coisas que são mais fáceis de entender quando se pode modificar um parâmetro e ver o efeito imediatamente do que lendo uma explicação sobre elas.
+
+---
+
+## O que vem a seguir
+
+A página de portfolio está em desenvolvimento. Ela vai reunir os projetos que merecem uma documentação mais aprofundada, com o mesmo tipo de exposição de processo que você encontrou aqui.
+
+Por enquanto, é isso. Se você chegou até aqui, obrigado.

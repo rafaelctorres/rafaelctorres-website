@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/rafae/OneDrive/Dokumente/rafaelctorres-website/src/components/PageTransition.tsx"],"sourcesContent":["'use client';\nimport { motion } from 'framer-motion';\n\nexport default function PageTransition({ children }: { children: React.ReactNode }) {\n  return (\n    <motion.div\n      initial={{ opacity: 0, y: 8 }}\n      animate={{ opacity: 1, y: 0 }}\n      transition={{ duration: 0.3, ease: 'easeOut' }}\n    >\n      {children}\n    </motion.div>\n  );\n}\n"],"names":[],"mappings":";;;;;AACA;AADA;;;AAGe,SAAS,eAAe,EAAE,QAAQ,EAAiC;IAChF,qBACE,8OAAC,oMAAM,CAAC,GAAG;QACT,SAAS;YAAE,SAAS;YAAG,GAAG;QAAE;QAC5B,SAAS;YAAE,SAAS;YAAG,GAAG;QAAE;QAC5B,YAAY;YAAE,UAAU;YAAK,MAAM;QAAU;kBAE5C;;;;;;AAGP","debugId":null}}]
+}

@@ -103,19 +103,22 @@ function HeroCanvas() {
                 ctx.scale(dpr, dpr);
                 build();
             }
+            // ── listener no window, não no canvas ─────────────────────────────────
+            // assim funciona mesmo quando o mouse está sobre o texto ou os botões
             const onMove = {
                 "HeroCanvas.useEffect.onMove": (e)=>{
-                    const r = canvas.getBoundingClientRect();
-                    mx = e.clientX - r.left;
-                    my = e.clientY - r.top;
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                        mx = x;
+                        my = y;
+                    } else {
+                        mx = -9999;
+                        my = -9999;
+                    }
                 }
             }["HeroCanvas.useEffect.onMove"];
-            const onLeave = {
-                "HeroCanvas.useEffect.onLeave": ()=>{
-                    mx = -9999;
-                    my = -9999;
-                }
-            }["HeroCanvas.useEffect.onLeave"];
             let timer;
             const onResize = {
                 "HeroCanvas.useEffect.onResize": ()=>{
@@ -129,8 +132,7 @@ function HeroCanvas() {
                     }["HeroCanvas.useEffect.onResize"], 100);
                 }
             }["HeroCanvas.useEffect.onResize"];
-            canvas.addEventListener('pointermove', onMove);
-            canvas.addEventListener('pointerleave', onLeave);
+            window.addEventListener('pointermove', onMove);
             window.addEventListener('resize', onResize);
             resize();
             if (!matchMedia('(prefers-reduced-motion:reduce)').matches) tick();
@@ -138,8 +140,7 @@ function HeroCanvas() {
                 "HeroCanvas.useEffect": ()=>{
                     cancelAnimationFrame(raf);
                     clearTimeout(timer);
-                    canvas.removeEventListener('pointermove', onMove);
-                    canvas.removeEventListener('pointerleave', onLeave);
+                    window.removeEventListener('pointermove', onMove);
                     window.removeEventListener('resize', onResize);
                 }
             })["HeroCanvas.useEffect"];
@@ -151,7 +152,7 @@ function HeroCanvas() {
         className: "absolute inset-0 w-full h-full"
     }, void 0, false, {
         fileName: "[project]/src/components/HeroCanvas.tsx",
-        lineNumber: 76,
+        lineNumber: 89,
         columnNumber: 10
     }, this);
 }

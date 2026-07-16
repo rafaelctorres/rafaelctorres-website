@@ -49,11 +49,11 @@ export default function HomePage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
             {[
               { n: '01', label: 'Applied Mathematics for Multimedia',
-                desc: 'Signal processing, spectral analysis, geometric algebra, and the mathematical foundations of visual and audio media.' },
-              { n: '02', label: 'Deep Learning',
+                desc: 'Applied computational geometry, interactive mathematical experiments and the foundations of visual and audio media.' },
+              { n: '02', label: 'Machine Learning',
                 desc: 'Computer vision, facial action unit detection, model evaluation pipelines, and applied machine learning research.' },
               { n: '03', label: 'Web Development',
-                desc: 'WebGL, real-time rendering, interactive systems, and creative tooling — interfaces that demonstrate ideas directly.' },
+                desc: 'WebGL, real-time rendering, interactive systems, and creative tooling' },
             ].map(({ n, label, desc }) => (
               <div key={n} className="border border-line hover:border-orange transition-colors group"
                 style={{ padding: '2rem', textAlign: 'center' }}>
@@ -85,9 +85,7 @@ export default function HomePage() {
                     <span className="font-sans text-phi-base text-copy group-hover:text-orange transition-colors flex-1">
                       {post.title}
                     </span>
-                    <span className="font-mono text-phi-xs text-orange" style={{ opacity: 0, transition: 'opacity 0.2s' }}
-                      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                      onMouseLeave={e => (e.currentTarget.style.opacity = '0')}>→</span>
+                    <span className="font-mono text-phi-xs text-orange opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                   </Link>
                 </li>
               ))}
